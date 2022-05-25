@@ -4,6 +4,7 @@ import { View, StyleSheet } from "react-native";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import Correct from "../screens/Correct";
 import UnitsScreen from "../screens/UnitsScreen";
+import Missed from "../screens/Missed";
 
 function AppNavigator({ navigation }) {
   const Stack = createStackNavigator();
@@ -15,6 +16,7 @@ function AppNavigator({ navigation }) {
       <Stack.Screen name="Correct" component={Correct} />
       <Stack.Screen name="Questions" component={WelcomeScreen} />
       <Stack.Screen name="Units" component={UnitsScreen} />
+      <Stack.Screen name="Statistics" component={Missed} />
     </Stack.Navigator>
   );
 }

@@ -1,11 +1,17 @@
 import React from "react";
-import { View, StyleSheet, FlatList, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import AppText from "../components/AppText";
 import Unit from "../components/Unit";
 import defaultStyles from "../config/defaultStyles";
 import Screen from "./Screen";
 
-function UnitsScreen(props) {
+function UnitsScreen({ navigation }) {
   const DATA = [
     {
       title: "Unit 1: Limits and Continuity",
@@ -43,7 +49,6 @@ function UnitsScreen(props) {
 
   return (
     <Screen style={styles.container}>
-      <AppText style={styles.header}>Select a Unit</AppText>
       <FlatList
         showsVerticalScrollIndicator={false}
         style={{
@@ -55,6 +60,17 @@ function UnitsScreen(props) {
         }}
         renderItem={({ item }) => <Unit title={item.title} />}
       />
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Statistics")}
+        style={[
+          styles.container1,
+          {
+            backgroundColor: defaultStyles.colors.incorrect,
+          },
+        ]}
+      >
+        <AppText style={styles.header}>Statistics</AppText>
+      </TouchableOpacity>
     </Screen>
   );
 }
@@ -64,11 +80,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  container1: {
+    borderRadius: 10,
+
+    justifyContent: "center",
+    marginVertical: 5,
+    paddingVertical: 40,
+    paddingHorizontal: 20,
+    width: 380,
+    marginTop: 10,
+  },
   header: {
     marginVertical: 30,
     fontWeight: "bold",
     fontSize: 30,
     color: defaultStyles.colors.teal,
+  },
+  header: {
+    fontWeight: "bold",
+    color: "white",
   },
 });
 

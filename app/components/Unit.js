@@ -16,7 +16,7 @@ function Unit({ bgColor = defaultStyles.colors.pinkish, title }) {
       style={[
         styles.container,
         {
-          backgroundColor: "red",
+          backgroundColor: defaultStyles.colors.teal,
         },
       ]}
     >

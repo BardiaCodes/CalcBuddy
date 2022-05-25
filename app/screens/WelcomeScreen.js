@@ -180,6 +180,7 @@ function WelcomeScreen(props) {
   const [showAnswers, setShowAnswers] = useState(false);
   const [correct, setCorrect] = useState(false);
   const [chosen, setChosen] = useState(undefined);
+  const [score, setScore] = useState(0);
 
   let handleQuestionClick = (choice) => {
     let txt = "option";
@@ -194,6 +195,7 @@ function WelcomeScreen(props) {
 
   let handleCorrect = () => {
     setCorrect(true);
+    setScore(score + 1);
     setShowAnswers(true);
   };
 
@@ -238,21 +240,39 @@ function WelcomeScreen(props) {
             problems[currentQuestion].correct
           }
         />
+        <AppText style={styles.score}>Score: {score}</AppText>
       </Screen>
       <Modal visible={showAnswers} animationType="slide">
         {correct == true && (
-          <View style={styles.modal}>
-            <AppText style={{ fontSize: 30 }}>Correct!</AppText>
+          <View style={[styles.modal, { backgroundColor: "#D9FFE5" }]}>
+            <AppText
+              style={{
+                fontSize: 40,
+                marginTop: 90,
+                fontWeight: "900",
+                color: defaultStyles.colors.teal,
+              }}
+            >
+              🎉 CORRECT! 🎉
+            </AppText>
+            <View style={styles.whiteBox}>
+              <AppText style={styles.gen}>You answered:</AppText>
+              <Image
+                style={[styles.logo, { marginBottom: 20 }]}
+                source={{
+                  uri: problems[currentQuestion][chosen],
+                }}
+              />
+            </View>
             <TouchableOpacity
               style={styles.btn}
-              onPress={() => setShowAnswers(false)}
+              onPress={() => {
+                setShowAnswers(false);
+                setCurrentQuestion(currentQuestion + 1);
+              }}
             >
               <AppText
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: 25,
-                }}
+                style={{ color: "white", fontWeight: "bold", fontSize: 25 }}
               >
                 Keep Practicing
               </AppText>
@@ -265,7 +285,7 @@ function WelcomeScreen(props) {
               style={{
                 fontSize: 40,
                 marginTop: 90,
-                fontWeight: "bold",
+                fontWeight: "900",
                 color: defaultStyles.colors.incorrect,
               }}
             >
@@ -279,7 +299,9 @@ function WelcomeScreen(props) {
                   uri: problems[currentQuestion][chosen],
                 }}
               />
-              <AppText style={styles.gen}>The correct answer was:</AppText>
+              <AppText style={[styles.gen, { marginTop: 20 }]}>
+                The correct answer was:
+              </AppText>
               <Image
                 style={styles.logo}
                 source={{
@@ -291,7 +313,10 @@ function WelcomeScreen(props) {
             </View>
             <TouchableOpacity
               style={styles.btn}
-              onPress={() => setShowAnswers(false)}
+              onPress={() => {
+                setShowAnswers(false);
+                setCurrentQuestion(currentQuestion + 1);
+              }}
             >
               <AppText
                 style={{ color: "white", fontWeight: "bold", fontSize: 25 }}
@@ -314,13 +339,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btn: {
-    width: 300,
+    width: 350,
     height: 100,
-    backgroundColor: defaultStyles.colors.purple,
+    backgroundColor: defaultStyles.colors.teal,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
-    marginTop: 90,
   },
   modal: {
     justifyContent: "center",
@@ -346,6 +370,12 @@ const styles = StyleSheet.create({
     padding: 30,
     marginVertical: 30,
     borderRadius: 40,
+  },
+  score: {
+    color: "white",
+    fontWeight: "800",
+    fontSize: 30,
+    marginTop: 20,
   },
 });
 
