@@ -8,11 +8,11 @@ import { useNavigation } from "@react-navigation/native";
 
 const window = Dimensions.get("window");
 
-function Unit({ bgColor = defaultStyles.colors.pinkish, title }) {
+function Unit({ title, onPress }) {
   let nav = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => nav.navigate("Questions")}
+      onPress={onPress}
       style={[
         styles.container,
         {
