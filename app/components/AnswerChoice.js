@@ -32,18 +32,7 @@ const mmlOptions = {
   },
 };
 
-function AnswerChoice({ text, handlePress, status }) {
-  const [color, setColor] = useState("#115753");
-  if (status == "correct") {
-    setColor("#115753");
-  }
-  if (status == "correct") {
-    setColor("green");
-  }
-  if (status == "incorrect") {
-    setColor("red");
-  }
-
+function AnswerChoice({ text, handlePress, color }) {
   return (
     <TouchableOpacity
       style={[

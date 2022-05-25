@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Modal } from "react-native";
 import colors from "../config/colors";
 import { Layout } from "@ui-kitten/components";
 import Screen from "./Screen";
 import AnswerChoice from "../components/AnswerChoice";
 import Question from "../components/Question";
 import defaultStyles from "../config/defaultStyles";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import AppText from "../components/AppText";
 
 let problems = [
   {
@@ -176,10 +178,13 @@ let problems = [
 function WelcomeScreen(props) {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [showAnswers, setShowAnswers] = useState(false);
-
-  let explosion;
+  const [correct, setCorrect] = useState(false);
+  const [chosen, setChosen] = useState(undefined);
 
   let handleQuestionClick = (choice) => {
+    let txt = "option";
+    txt += choice;
+    setChosen(txt);
     if (choice == problems[currentQuestion].correct) {
       handleCorrect();
     } else {
@@ -188,49 +193,116 @@ function WelcomeScreen(props) {
   };
 
   let handleCorrect = () => {
+    setCorrect(true);
     setShowAnswers(true);
   };
 
   let handleIncorrect = () => {
+    setCorrect(false);
     setShowAnswers(true);
   };
 
   return (
-    <Screen style={styles.container}>
-      <Question text={problems[currentQuestion].questionURL} />
-      <AnswerChoice
-        text={problems[currentQuestion].option1}
-        handlePress={() => handleQuestionClick(1)}
-        status={
-          (showAnswers && problems[currentQuestion].option1) ==
-          problems[currentQuestion].correct
-        }
-      />
-      <AnswerChoice
-        text={problems[currentQuestion].option2}
-        handlePress={() => handleQuestionClick(2)}
-        status={
-          (showAnswers && problems[currentQuestion].option2) ==
-          problems[currentQuestion].correct
-        }
-      />
-      <AnswerChoice
-        text={problems[currentQuestion].option3}
-        handlePress={() => handleQuestionClick(3)}
-        status={
-          (showAnswers && problems[currentQuestion].option3) ==
-          problems[currentQuestion].correct
-        }
-      />
-      <AnswerChoice
-        text={problems[currentQuestion].option4}
-        handlePress={() => handleQuestionClick(4)}
-        status={
-          (showAnswers && problems[currentQuestion].option4) ==
-          problems[currentQuestion].correct
-        }
-      />
-    </Screen>
+    <>
+      <Screen style={styles.container}>
+        <Question text={problems[currentQuestion].questionURL} />
+        <AnswerChoice
+          text={problems[currentQuestion].option1}
+          handlePress={() => handleQuestionClick(1)}
+          status={
+            (showAnswers && problems[currentQuestion].option1) ==
+            problems[currentQuestion].correct
+          }
+        />
+        <AnswerChoice
+          text={problems[currentQuestion].option2}
+          handlePress={() => handleQuestionClick(2)}
+          status={
+            (showAnswers && problems[currentQuestion].option2) ==
+            problems[currentQuestion].correct
+          }
+        />
+        <AnswerChoice
+          text={problems[currentQuestion].option3}
+          handlePress={() => handleQuestionClick(3)}
+          status={
+            (showAnswers && problems[currentQuestion].option3) ==
+            problems[currentQuestion].correct
+          }
+        />
+        <AnswerChoice
+          text={problems[currentQuestion].option4}
+          handlePress={() => handleQuestionClick(4)}
+          status={
+            (showAnswers && problems[currentQuestion].option4) ==
+            problems[currentQuestion].correct
+          }
+        />
+      </Screen>
+      <Modal visible={showAnswers} animationType="slide">
+        {correct == true && (
+          <View style={styles.modal}>
+            <AppText style={{ fontSize: 30 }}>Correct!</AppText>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => setShowAnswers(false)}
+            >
+              <AppText
+                style={{
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: 25,
+                }}
+              >
+                Keep Practicing
+              </AppText>
+            </TouchableOpacity>
+          </View>
+        )}
+        {correct == false && (
+          <View style={[styles.modal, { backgroundColor: "#FFD9D9" }]}>
+            <AppText
+              style={{
+                fontSize: 40,
+                marginTop: 90,
+                fontWeight: "bold",
+                color: defaultStyles.colors.incorrect,
+              }}
+            >
+              Incorrect
+            </AppText>
+            <View style={styles.whiteBox}>
+              <AppText style={styles.gen}>You answered:</AppText>
+              <Image
+                style={styles.logo}
+                source={{
+                  uri: problems[currentQuestion][chosen],
+                }}
+              />
+              <AppText style={styles.gen}>The correct answer was:</AppText>
+              <Image
+                style={styles.logo}
+                source={{
+                  uri: problems[currentQuestion][
+                    "option" + problems[currentQuestion].correct
+                  ],
+                }}
+              />
+            </View>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => setShowAnswers(false)}
+            >
+              <AppText
+                style={{ color: "white", fontWeight: "bold", fontSize: 25 }}
+              >
+                Keep Practicing
+              </AppText>
+            </TouchableOpacity>
+          </View>
+        )}
+      </Modal>
+    </>
   );
 }
 
@@ -240,6 +312,40 @@ const styles = StyleSheet.create({
     backgroundColor: defaultStyles.colors.teal,
     justifyContent: "center",
     alignItems: "center",
+  },
+  btn: {
+    width: 300,
+    height: 100,
+    backgroundColor: defaultStyles.colors.purple,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    marginTop: 90,
+  },
+  modal: {
+    justifyContent: "center",
+    alignItems: "center",
+
+    flex: 1,
+  },
+  gen: {
+    fontSize: 25,
+    marginVertical: 20,
+    fontWeight: "bold",
+    color: defaultStyles.colors.teal,
+  },
+  logo: {
+    height: 50,
+    width: 300,
+    resizeMode: "contain",
+  },
+  whiteBox: {
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 30,
+    marginVertical: 30,
+    borderRadius: 40,
   },
 });
 

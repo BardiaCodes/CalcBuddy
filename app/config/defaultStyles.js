@@ -6,6 +6,5 @@ export default {
   text: {
     fontSize: 20,
     color: colors.dark,
-    fontFamily: "Inter_400Regular",
   },
 };
