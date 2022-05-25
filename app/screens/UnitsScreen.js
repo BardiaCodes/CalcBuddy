@@ -60,7 +60,7 @@ function UnitsScreen({ navigation }) {
         }}
         renderItem={({ item }) => <Unit title={item.title} />}
       />
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => navigation.navigate("Statistics")}
         style={[
           styles.container1,
@@ -70,7 +70,7 @@ function UnitsScreen({ navigation }) {
         ]}
       >
         <AppText style={styles.header}>Statistics</AppText>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </Screen>
   );
 }

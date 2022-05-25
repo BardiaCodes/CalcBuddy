@@ -2,17 +2,18 @@ import React from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { MathJaxSvg } from "react-native-mathjax-html-to-svg";
 import { SvgUri } from "react-native-svg";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-function Question({ text }) {
+function Question({ text, onPress }) {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image
         style={styles.logo}
         source={{
           uri: text,
         }}
       />
-    </View>
+    </TouchableOpacity>
   );
 }
 

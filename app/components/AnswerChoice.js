@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     pointerEvents: "none",
   },
   logo: {
-    height: 30,
-    width: 200,
+    height: 20,
+    width: 250,
     resizeMode: "contain",
   },
 });
